@@ -1,1 +1,1 @@
-# NTUA-Modelling-and-Control-of-Dynamical-Systems
+# NTUA Modelling and Control of Dynamical-Systems
