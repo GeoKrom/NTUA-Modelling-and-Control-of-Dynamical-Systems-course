@@ -1,8 +1,3 @@
-%% Name                   -  A.M.
-%% Eirini Maria Georganta - 02121201
-%% Georgios Kassavetakis - 02121203
-%% Georgios Krommydas - 02121208
-%% Frantzieska Michail - 02121216
 %% Task 3 of Series 2
 
 clc
