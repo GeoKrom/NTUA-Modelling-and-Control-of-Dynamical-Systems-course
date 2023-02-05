@@ -1,3 +1,9 @@
+%% Name                   -  A.M.
+%% Eirini Maria Georganta - 02121201
+%% Georgios Kassavetakis - 02121203
+%% Georgios Krommydas - 02121208
+%% Frantzieska Michail - 02121216
+
 %% Task 5 of Series 2
 
 clc
@@ -19,43 +25,39 @@ D=[0, 0;
     0, 0];
 
 %System Creation
-sys_original=ss(A,B,C,D);
+sys_original = ss(A,B,C,D);
 
 %Number of States,Inputs,Outputs
-n=size(A,2);
-m=size(B,2);
-r=size(C,1);
+n = size(A,2);
+m = size(B,2);
+r = size(C,1);
 
 %Augmented system
-A_aug=[zeros(r,r), C;
-        zeros(n,r), A;];
-B_aug=[zeros(r,m);
-        B];
-C_aug=[eye(r),zeros(r,n)];
-
-%Augmented System Creation
-% sys_aug=ss(A_aug,B_aug,C_aug,D);
+A_aug = [zeros(r,r), C;
+         zeros(n,r), A;];
+B_aug = [zeros(r,m);
+         B];
+C_aug = [eye(r),zeros(r,n)];
 
 %% LQR Creation 
 
 %Using the Q creation Algorithm
-M_L=-inv(C*inv(A)*B);
-M_H=inv(B'*B)*B';
-Q=[M_L, M_H]'*[M_L, M_H];
-p=0.102;
-R=p^2*eye(m);
+M_L = -inv(C*inv(A)*B);
+M_H = inv(B'*B)*B';
+Q = [M_L, M_H]'*[M_L, M_H];                      % Compute Q
+p = 0.102^2
+R = p*eye(m)                                % Compute R
 
-%LQR gain Calculation
-Kr=lqr(A_aug,B_aug,Q,R);
-
-%% Open loop system Creation
+Kr = lqr(A_aug,B_aug,Q,R);            % LQR Controller
+%Ku = [Kr(:,1:2)]                            % K = [Ku Ky]
+%Ky = [-Kr(:,3:5)]
 
 s=tf('s');
-L_LQ=Kr*inv(s*eye(n+r)-A_aug)*B_aug;
+L_LQ=Kr*inv(s*eye(n+r)-A_aug)*B_aug;        % Open Loop Transfer Function
 
 %% Singular Value analysis
 
-w=logspace(-3,3,200);
+w = logspace(-3,3,200);
 %[s,w] = sigma(sys_original,omega);
 figure(1)
 clf
@@ -71,22 +73,21 @@ grid;
 points=[1,20;100,-20;10,0];
 scatter(points(:,1),points(:,2),'rx')
 legend('LQR system','Original system','location','southwest')
-
 %% Simulink Simulation
 
 %Using simulink to simulate the system
-r=[1,0;0,1;1,1;1,-1];
-y1=cell(4,1);
-y2=cell(4,1);
-time=cell(4,1);
+r = [1,0;0,1;1,1;1,-1];
+y1 = cell(4,1);
+y2 = cell(4,1);
+time = cell(4,1);
 open('LQR_integration.mdl')
-for i=1:4
-    r1=r(i,1);
-    r2=r(i,2);
+for i = 1:4
+    r1 = r(i,1);
+    r2 = r(i,2);
     sim('LQR_integration.mdl')
-    y1(i)={LQR_reg(:,1)};
-    y2(i)={LQR_reg(:,2)};
-    time(i)={tout};
+    y1(i) = {LQR_reg(:,1)};
+    y2(i) = {LQR_reg(:,2)};
+    time(i) = {tout};
 end
 close_system('LQR_integration.mdl')
 clc
@@ -94,7 +95,7 @@ clc
 %% Simulation Results
 
 %Plot of systems output for each compined input r1 and r2
-for i=1:4
+for i = 1:4
     figure(1+i)
     clf
     str1=['Output y_1 for r_1=',num2str(r(i,1)),' and r_2=',num2str(r(i,2))];
