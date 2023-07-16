@@ -4,10 +4,10 @@ Analytical and Programming Exercises for course DPMS_AS/1108 - Modelling and Con
 
 # Authors
 
-Eirini Georganta
+Eirini Maria Georganta
 
-George Kassavetakis
+[George Kassavetakis](https://github.com/Gkassavetakis)
 
 [George Krommydas](https://github.com/GeoKrom)
 
-Frantzeska Michail
+Frantzieska Michail
